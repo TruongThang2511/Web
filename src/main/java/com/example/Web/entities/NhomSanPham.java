@@ -1,5 +1,6 @@
 package com.example.Web.entities;
 
+import com.example.Web.validators.annotations.ValidDanhMucId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -32,7 +33,7 @@ public class NhomSanPham {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "danhmuc_id", referencedColumnName = "id")
     @ToString.Exclude
-//    @ValidCategoryId
+    @ValidDanhMucId
     private DanhMuc danhMuc;
 
     @OneToMany(mappedBy = "nhomsanpham", cascade = CascadeType.ALL)

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <meta name="viewport" content="width=device-width, initial-
+scale=1.0">
+
+  <th:block th:replace="~{layout::link-css}"></th:block>
+  <th:block th:replace="~{layout::custom-css}"></th:block>
+  <title>Edit Product</title>
+</head>
+<body>
+<th:block th:replace="~{layout::header}"></th:block>
+<div class="container">
+  <h1>Edit Product</h1>
+  <form th:action="@{/sanphams/edit}" th:object="${sanpham}" method="post">
+    <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+      <input type="hidden" th:field="*{id}">
+      <div class="col-6 mb-3">
+        <label class="form-label" for="title">Title:</label>
+        <input class="form-control" type="text" th:field="*{title}"
+               id="title" required autofocus>
+        <span class="text-danger" th:if="${#fields.hasErrors('title')}"
+              th:errors="*{title}"></span>
+      </div>
+      <div class="col-6 mb-3">
+        <img th:src="@{'/image/' + ${sanpham.image}}" width="50px" height="75px">
+        <div class="form-group">
+          <label class="form-label" for="image">Image:</label>
+          <input type="file" name="image" accept="image/*" class="form-control-file" id="image">
+        </div>
+        <span class="text-danger" th:if="${#fields.hasErrors('image')}"
+              th:errors="*{image}"></span>
+      </div>
+      <div class="col-6 mb-3">
+        <label class="form-label" for="price">Price:</label>
+        <input class="form-control" type="text" th:field="*{price}" id="price">
+        <span class="text-danger" th:if="${#fields.hasErrors('price')}"
+              th:errors="*{price}"></span>
+      </div>
+      <div class="col-6 mb-3">
+        <label class="form-label" for="nhomsanpham">Series:</label><span
+              class="text-danger">*</span>
+        <select class="form-control" id="nhomsanpham" name="nhomsanpham.id">
+          <option value="">-- Select Series --</option>
+          <option th:each="nhomsanpham : ${nhomsanphams}"
+                  th:value="${nhomsanpham.getId()}"
+                  th:text="${nhomsanpham.getName()}"
+                  th:selected="${nhomsanpham.getId() == sanpham.nhomsanpham.getId()}"></option>
+        </select>
+      </div>
+      <div class="col-6 mb-3">
+        <label class="form-label" for="mau">Color:</label><span
+              class="text-danger">*</span>
+        <select class="form-control" id="mau" name="mau.id">
+          <option value="">-- Select Series --</option>
+          <option th:each="mau : ${maus}"
+                  th:value="${mau.getId()}"
+                  th:text="${mau.getName()}"
+                  th:selected="${mau.getId() == sanpham.mau.getId()}"></option>
+        </select>
+      </div>
+      <input type="submit" value="Save">
+    </form>
+  </form>
+  <br>
+  <a th:href="@{/sanphams}">Back to List</a>
+</div>
+<th:block th:replace="~{layout::footer}"></th:block>
+</body>
+</html>

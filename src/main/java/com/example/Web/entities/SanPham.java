@@ -1,5 +1,7 @@
 package com.example.Web.entities;
 
+import com.example.Web.validators.annotations.ValidMauId;
+import com.example.Web.validators.annotations.ValidNhomSPId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -33,15 +35,18 @@ public class SanPham {
     @Positive(message = "Price must be greater than 0")
     private Double price;
 
+    @Column(name = "image")
+    private String image;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nhomsanpham_id", referencedColumnName = "id")
-//    @ValidCategoryId
+    @ValidNhomSPId
     @ToString.Exclude
     private NhomSanPham nhomsanpham;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mau_id", referencedColumnName = "id")
-//    @ValidCategoryId
+    @ValidMauId
     @ToString.Exclude
     private Mau mau;
 

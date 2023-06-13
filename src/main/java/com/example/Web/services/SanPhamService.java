@@ -18,7 +18,7 @@ import java.util.Optional;
         rollbackFor = {Exception.class, Throwable.class})
 public class SanPhamService {
     private final ISanPhamRepository sanphamRepository;
-    public List<SanPham> getAllBooks(Integer pageNo,
+    public List<SanPham> getAllSanPhams(Integer pageNo,
                                      Integer pageSize,
                                      String sortBy) {
 
@@ -27,11 +27,11 @@ public class SanPhamService {
     public Optional<SanPham> getSanPhamById(Long id) {
         return sanphamRepository.findById(id);
     }
-    public void addBook(SanPham sanpham) {
+    public void addSanPham(SanPham sanpham) {
         sanphamRepository.save(sanpham);
     }
 
-    public void updateBook(@NotNull SanPham sanpham) {
+    public void updateSanPham(@NotNull SanPham sanpham) {
         SanPham existingSanPham = sanphamRepository.findById(sanpham.getId())
                 .orElse(null);
         Objects.requireNonNull(existingSanPham).setTitle(sanpham.getTitle());
@@ -43,7 +43,7 @@ public class SanPhamService {
     public void deleteSanPhamById(Long id) {
         sanphamRepository.deleteById(id);
     }
-    public List<SanPham> searchBook(String keyword) {
+    public List<SanPham> searchSanPham(String keyword) {
         return sanphamRepository.searchSanPham(keyword);
     }
 }
