@@ -155,8 +155,6 @@ public class SanPhamController {
     @GetMapping("/viewproduct/{id}")
     public String viewProduct(@PathVariable long id, Model model){
         model.addAttribute("sanpham", sanphamService.getSanPhamById(id).get());
-/*        Item it = new Item();
-        it.getProductMau()*/
         return "sanpham/viewProduct";
     }
     @PostMapping("/upload")
