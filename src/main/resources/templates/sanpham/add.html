@@ -37,17 +37,17 @@
               th:errors="*{price}"></span>
       </div>
       <div class="col-6 mb-3">
-        <label class="form-label" for="nhomsanpham">Series:</label><span
+        <label class="form-label" for="danhmuc">Series:</label><span
               class="text-danger">*</span>
-        <select class="form-control" id="nhomsanpham" name="nhomsanpham.id">
+        <select class="form-control" id="danhmuc" name="danhmuc.id">
           <option value="">-- Select Series --</option>
-          <option th:each="nhomsanpham : ${nhomsanphams}"
-                  th:value="${nhomsanpham.getId()}"
-                  th:text="${nhomsanpham.getName()}"></option>
+          <option th:each="danhmuc : ${danhmucs}"
+                  th:value="${danhmuc.getId()}"
+                  th:text="${danhmuc.getName()}"></option>
         </select>
         <span class="text-danger"
-              th:if="${#fields.hasErrors('nhomsanpham')}"
-              th:errors="*{nhomsanpham}"></span>
+              th:if="${#fields.hasErrors('danhmuc')}"
+              th:errors="*{danhmuc}"></span>
       </div>
       <div class="col-6 mb-3">
         <label class="form-label" for="mau">Color:</label><span

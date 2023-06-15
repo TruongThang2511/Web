@@ -41,17 +41,6 @@ scale=1.0">
               th:errors="*{price}"></span>
       </div>
       <div class="col-6 mb-3">
-        <label class="form-label" for="nhomsanpham">Series:</label><span
-              class="text-danger">*</span>
-        <select class="form-control" id="nhomsanpham" name="nhomsanpham.id">
-          <option value="">-- Select Series --</option>
-          <option th:each="nhomsanpham : ${nhomsanphams}"
-                  th:value="${nhomsanpham.getId()}"
-                  th:text="${nhomsanpham.getName()}"
-                  th:selected="${nhomsanpham.getId() == sanpham.nhomsanpham.getId()}"></option>
-        </select>
-      </div>
-      <div class="col-6 mb-3">
         <label class="form-label" for="mau">Color:</label><span
               class="text-danger">*</span>
         <select class="form-control" id="mau" name="mau.id">

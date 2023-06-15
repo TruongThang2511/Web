@@ -3,6 +3,9 @@ package com.example.Web.services;
 import com.example.Web.entities.SanPham;
 import com.example.Web.repositories.ISanPhamRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +21,9 @@ import java.util.Optional;
         rollbackFor = {Exception.class, Throwable.class})
 public class SanPhamService {
     private final ISanPhamRepository sanphamRepository;
-    public List<SanPham> getAllSanPhams(Integer pageNo,
-                                     Integer pageSize,
-                                     String sortBy) {
-
-        return sanphamRepository.findAllSP(pageNo, pageSize, sortBy);
+    public Page<SanPham> getSanPham(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return sanphamRepository.findAll(pageable);
     }
     public Optional<SanPham> getSanPhamById(Long id) {
         return sanphamRepository.findById(id);

@@ -35,20 +35,11 @@ public class SanPhamController {
 
     private final CartService cartService;
     @GetMapping
-    public String showAllSanPhams(
-            @NotNull Model model,
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "id") String sortBy) {
-        model.addAttribute("sanphams", sanphamService.getAllSanPhams(pageNo,
-                pageSize, sortBy));
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("danhmucs",
-                danhmucService.getAllDanhMuc());
-        model.addAttribute("maus",
-                mauService.getAllMau());
-        model.addAttribute("totalPages",
-                sanphamService.getAllSanPhams(pageNo, pageSize, sortBy).size() / pageSize);
+    public String showAllSanPhams(@RequestParam(defaultValue = "0") int page,
+                           @RequestParam(defaultValue = "10") int size,
+                           Model model) {
+        var sanphams = sanphamService.getSanPham(page, size);
+        model.addAttribute("sanphams",sanphams);
         return "sanpham/list";
     }
     @GetMapping("/add")
@@ -122,16 +113,8 @@ public class SanPhamController {
     @GetMapping("/search")
     public String searchSanPham(
             @NotNull Model model,
-            @RequestParam String keyword,
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "20") Integer pageSize,
-            @RequestParam(defaultValue = "id") String sortBy) {
+            @RequestParam String keyword) {
         model.addAttribute("sanphams", sanphamService.searchSanPham(keyword));
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages",
-                sanphamService
-                        .getAllSanPhams(pageNo, pageSize, sortBy)
-                        .size() / pageSize);
         model.addAttribute("danhmucs",
                 danhmucService.getAllDanhMuc());
         model.addAttribute("maus",
