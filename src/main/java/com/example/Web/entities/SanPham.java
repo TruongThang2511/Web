@@ -1,7 +1,6 @@
 package com.example.Web.entities;
 
 import com.example.Web.validators.annotations.ValidMauId;
-import com.example.Web.validators.annotations.ValidNhomSPId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -9,6 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,14 +36,18 @@ public class SanPham {
     @Positive(message = "Price must be greater than 0")
     private Double price;
 
+    public String getFormattedPrice() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        return decimalFormat.format(price);
+    }
+
     @Column(name = "image")
     private String image;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nhomsanpham_id", referencedColumnName = "id")
-    @ValidNhomSPId
+    @JoinColumn(name = "danhmuc_id", referencedColumnName = "id")
     @ToString.Exclude
-    private NhomSanPham nhomsanpham;
+    private DanhMuc danhmuc;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mau_id", referencedColumnName = "id")
@@ -50,9 +55,9 @@ public class SanPham {
     @ToString.Exclude
     private Mau mau;
 
-//    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-//    @ToString.Exclude
-//    private List<ItemInvoice> itemInvoices = new ArrayList<>();
+    @OneToMany(mappedBy = "sanpham", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<ItemInvoice> itemInvoices = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

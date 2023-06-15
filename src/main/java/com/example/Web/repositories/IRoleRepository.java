@@ -1,9 +1,10 @@
 package com.example.Web.repositories;
 
-import com.example.Web.entities.NhomSanPham;
+import com.example.Web.entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface INhomSanPhamRepository extends JpaRepository<NhomSanPham, Long> {
+public interface IRoleRepository extends JpaRepository<Role, Long> {
+    Role findRoleById(Long id);
 }

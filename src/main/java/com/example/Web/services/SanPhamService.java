@@ -36,12 +36,15 @@ public class SanPhamService {
                 .orElse(null);
         Objects.requireNonNull(existingSanPham).setTitle(sanpham.getTitle());
         existingSanPham.setPrice(sanpham.getPrice());
-        existingSanPham.setNhomsanpham(sanpham.getNhomsanpham());
+        existingSanPham.setDanhmuc(sanpham.getDanhmuc());
         existingSanPham.setMau(sanpham.getMau());
         sanphamRepository.save(existingSanPham);
     }
     public void deleteSanPhamById(Long id) {
         sanphamRepository.deleteById(id);
+    }
+    public List<SanPham> getAllSanPhamByDanhMucId(int id) {
+        return sanphamRepository.findAllByDanhmuc_Id(id);
     }
     public List<SanPham> searchSanPham(String keyword) {
         return sanphamRepository.searchSanPham(keyword);

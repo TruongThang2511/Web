@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"      lang="en">
+<!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Product List</title>
+  <th:block th:replace="~{layout::link-css}"></th:block>
+  <th:block th:replace="~{layout::custom-css}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{layout::header}"></th:block>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-sm-5 d-flex justify-content-center">
+      <img class="mt-5" height="300px" width="300px" th:src="@{${'/image/' + sanpham.image}}" alt="">
+    </div>
+    <div class="col-sm-7 mt-5">
+      <h2 th:text="${sanpham.getTitle()}"></h2>
+      <p th:text="${sanpham.getDanhmuc().getName()}"></p>
+      <p th:text="${sanpham.getMau().getName()}"></p>
+      <h2><span th:text="${sanpham.getFormattedPrice()}"></span> VNĐ</h2>
+      <form th:action="@{/sanphams/add-to-cart}" method="post" class="d-inline">
+        <input type="hidden" name="id" th:value="${sanpham.getId()}">
+        <input type="hidden" name="name" th:value="${sanpham.getTitle()}">
+        <input type="hidden" name="price" th:value="${sanpham.getPrice()}">
+        <input type="hidden" name="color" th:value="${sanpham.getMau().getName()}">
+        <button type="submit" class="btn btn-success"
+                onclick="return confirm('Are you sure you want to add this product to cart?')">
+          Add to cart</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<th:block th:replace="~{layout::footer}"></th:block>
+</body>
+</html>

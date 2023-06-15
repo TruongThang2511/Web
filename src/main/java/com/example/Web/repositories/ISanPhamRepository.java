@@ -19,11 +19,11 @@ public interface ISanPhamRepository extends PagingAndSortingRepository<SanPham, 
                 pageSize,
                 Sort.by(sortBy))).getContent();
     }
-
+    List<SanPham> findAllByDanhmuc_Id(int id);
     @Query("""
             SELECT b FROM SanPham b
             WHERE b.title LIKE %?1%
-            OR b.nhomsanpham.name LIKE %?1%
+            OR b.danhmuc.name LIKE %?1%
             OR b.mau.name LIKE %?1%
             """)
     List<SanPham> searchSanPham(String keyword);

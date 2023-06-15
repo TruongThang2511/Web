@@ -29,9 +29,9 @@ public class DanhMuc {
     @NotBlank(message = "Name must not be blank")
     private String name;
 
-    @OneToMany(mappedBy = "danhMuc", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "danhmuc", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<NhomSanPham> nhomSanPhams = new ArrayList<>();
+    private List<SanPham> sanphams = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

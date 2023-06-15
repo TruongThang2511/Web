@@ -1,8 +1,11 @@
 package com.example.Web.controller;
 
+import com.example.Web.daos.Item;
+import com.example.Web.entities.Mau;
 import com.example.Web.entities.SanPham;
+import com.example.Web.services.CartService;
+import com.example.Web.services.DanhMucService;
 import com.example.Web.services.MauService;
-import com.example.Web.services.NhomSanPhamService;
 import com.example.Web.services.SanPhamService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +29,11 @@ import java.nio.file.Paths;
 public class SanPhamController {
     private final SanPhamService sanphamService;
     private final MauService mauService;
-    private final NhomSanPhamService nhomsanphamService;
+    private final DanhMucService danhmucService;
     public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
 
 
-    //    private final CartService cartService;
+    private final CartService cartService;
     @GetMapping
     public String showAllSanPhams(
             @NotNull Model model,
@@ -40,8 +43,8 @@ public class SanPhamController {
         model.addAttribute("sanphams", sanphamService.getAllSanPhams(pageNo,
                 pageSize, sortBy));
         model.addAttribute("currentPage", pageNo);
-        model.addAttribute("nhomsanphams",
-                nhomsanphamService.getAllNhomSanPham());
+        model.addAttribute("danhmucs",
+                danhmucService.getAllDanhMuc());
         model.addAttribute("maus",
                 mauService.getAllMau());
         model.addAttribute("totalPages",
@@ -51,8 +54,8 @@ public class SanPhamController {
     @GetMapping("/add")
     public String addSanPhamForm(@NotNull Model model) {
         model.addAttribute("sanpham",new SanPham());
-        model.addAttribute("nhomsanphams",
-                nhomsanphamService.getAllNhomSanPham());
+        model.addAttribute("danhmucs",
+                danhmucService.getAllDanhMuc());
         model.addAttribute("maus",
                 mauService.getAllMau());
         return "sanpham/add";
@@ -68,8 +71,8 @@ public class SanPhamController {
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .toArray(String[]::new);
             model.addAttribute("errors", errors);
-            model.addAttribute("nhomsanphams",
-                    nhomsanphamService.getAllNhomSanPham());
+            model.addAttribute("danhmucs",
+                    danhmucService.getAllDanhMuc());
             model.addAttribute("maus",
                     mauService.getAllMau());
             return "sanpham/add";
@@ -92,7 +95,7 @@ public class SanPhamController {
     {
         var sanpham = sanphamService.getSanPhamById(id);
         model.addAttribute("sanpham", sanpham.orElseThrow(() -> new IllegalArgumentException("Product not found")));
-        model.addAttribute("nhomsanphams", nhomsanphamService.getAllNhomSanPham());
+        model.addAttribute("danhmucs", danhmucService.getAllDanhMuc());
         model.addAttribute("maus", mauService.getAllMau());
         return "sanpham/edit";
     }
@@ -106,8 +109,8 @@ public class SanPhamController {
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .toArray(String[]::new);
             model.addAttribute("errors", errors);
-            model.addAttribute("nhomsanphams",
-                    nhomsanphamService.getAllNhomSanPham());
+            model.addAttribute("danhmucs",
+                    danhmucService.getAllDanhMuc());
             model.addAttribute("maus",
                     mauService.getAllMau());
             return "sanpham/edit";
@@ -129,25 +132,33 @@ public class SanPhamController {
                 sanphamService
                         .getAllSanPhams(pageNo, pageSize, sortBy)
                         .size() / pageSize);
-        model.addAttribute("categories",
-                nhomsanphamService.getAllNhomSanPham());
+        model.addAttribute("danhmucs",
+                danhmucService.getAllDanhMuc());
         model.addAttribute("maus",
                 mauService.getAllMau());
         return "sanpham/list";
     }
 
-//    @PostMapping("/add-to-cart")
-//    public String addToCart(HttpSession session,
-//                            @RequestParam long id,
-//                            @RequestParam String name,
-//                            @RequestParam double price,
-//                            @RequestParam(defaultValue = "1") int quantity)
-//    {
-//        var cart = cartService.getCart(session);
-//        cart.addItems(new Item(id, name, price, quantity));
-//        cartService.updateCart(session, cart);
-//        return "redirect:/books";
-//    }
+    @PostMapping("/add-to-cart")
+    public String addToCart(HttpSession session,
+                            @RequestParam long id,
+                            @RequestParam String name,
+                            @RequestParam String color,
+                            @RequestParam double price,
+                            @RequestParam(defaultValue = "1") int quantity)
+    {
+        var cart = cartService.getCart(session);
+        cart.addItems(new Item(id, name, price, color, quantity));
+        cartService.updateCart(session, cart);
+        return "redirect:/sanphams";
+    }
+    @GetMapping("/viewproduct/{id}")
+    public String viewProduct(@PathVariable long id, Model model){
+        model.addAttribute("sanpham", sanphamService.getSanPhamById(id).get());
+/*        Item it = new Item();
+        it.getProductMau()*/
+        return "sanpham/viewProduct";
+    }
     @PostMapping("/upload")
     public String uploadImage(Model model, @RequestParam("image") MultipartFile file) throws IOException {
         StringBuilder fileNames = new StringBuilder();
